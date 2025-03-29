@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import dotenv from 'dotenv';
 import { ValidationError } from 'class-validator';
+import logger from '../infrastructure/logger/custom.logger';
 
 dotenv.config();
 
@@ -22,17 +23,17 @@ export const errorHandler = (err: Error, req: Request, res: Response, next: Next
       errors: err.details || [],
     });
   }
-  console.error('Unexpected Error: ', err);
+  logger.error('Unexpected Error: ', err);
   return handleInternalServerError(res, err);
 };
 
 function handleInternalServerError(res: Response, err: Error) {
   const isProduction = process.env.NODE_ENV === 'production';
   if (isProduction) {
-    console.error('Internal Server Error (Production):', err);
+    logger.error('Internal Server Error (Production):', err);
     return res.status(500).json({ message: 'Service temporarily unavailable. Please try again later.' });
   } else {
-    console.error('Internal Server Error (Development):', err);
+    logger.error('Internal Server Error (Development):', err);
     return res.status(500).json({
       error: 'Internal Server Error',
       details: err.message,
