@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import dotenv from 'dotenv';
 import { ValidationError } from 'class-validator';
-import logger from '../infrastructure/logger/custom.logger';
+import logger from '../config/logger/custom.logger';
 
 dotenv.config();
 
@@ -21,6 +21,7 @@ export const errorHandler = (err: Error, req: Request, res: Response, next: Next
     return res.status(err.statusCode).json({
       message: err.message,
       errors: err.details || [],
+      error: true,
     });
   }
   logger.error('Unexpected Error: ', err);
