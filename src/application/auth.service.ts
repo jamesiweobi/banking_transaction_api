@@ -3,6 +3,8 @@ import jwt from 'jsonwebtoken';
 import { MongoUserRepository } from '../infrastructure/database/mongo.user.repo';
 import { DuplicateResourceError } from '../errors/duplicateResource.error';
 import { UnAuthorizedError } from '../errors/unAuthorized.error';
+import dotenv from 'dotenv';
+dotenv.config();
 
 export class AuthService {
   constructor(private userRepository: MongoUserRepository) {}
@@ -23,7 +25,7 @@ export class AuthService {
     if (!isValid) throw new UnAuthorizedError('Invalid credentials');
 
     const token = jwt.sign({ _id: user.id, email: user.email }, process.env.JWT_SECRET!, {
-      expiresIn: '1h',
+      expiresIn: '10days',
     });
 
     return { token, _id: user.id };
