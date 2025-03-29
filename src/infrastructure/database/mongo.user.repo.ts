@@ -1,5 +1,3 @@
-// infrastructure/persistence/mongoUserRepository.ts
-
 import UserModel from './schemas/user.schema';
 import { IUserRepository } from '../../application/ports/user.interface.repo';
 import { IUser } from '../../application/domain/user';
@@ -14,7 +12,7 @@ export class MongoUserRepository implements IUserRepository {
   }
 
   async findByEmail(email: string): Promise<IUser | null> {
-    const user = await UserModel.findOne({ email });
+    const user = await UserModel.findOne({ email }).select({ password: true });
     return user ? (user.toObject() as IUser) : null;
   }
 
