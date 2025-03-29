@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
-import { AppError } from '../../errors/app.error';
+import { AppError } from '../../errors/appError.error';
 import logger from '../logger/custom.logger';
 dotenv.config();
 
