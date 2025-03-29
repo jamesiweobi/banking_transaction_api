@@ -1,4 +1,4 @@
-import { AppError } from './app.error';
+import { AppError } from './appError.error';
 
 export class UnAuthorizedError extends AppError {
   constructor(message: string = 'Access denied') {
