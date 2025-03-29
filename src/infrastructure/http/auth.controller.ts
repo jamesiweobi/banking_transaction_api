@@ -22,7 +22,7 @@ export const register = async (req: Request, res: Response, next: NextFunction) 
 
 export const login = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    validateDto(RegisterDto, req.body, next);
+    validateDto(LoginDto, req.body, next);
     const { email, password } = req.body;
     const result = await authService.login(email, password);
     sendResponse(res, 200, result);
