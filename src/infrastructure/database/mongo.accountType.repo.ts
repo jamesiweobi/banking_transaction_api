@@ -7,7 +7,7 @@ export class MongoAccountTypeRepository implements IAccountTypeRepository {
   async createAccountType(AccountType: IAccountType): Promise<IAccountType> {
     const newAccountType = new AccountTypeModel(AccountType);
     const savedAccountType = await newAccountType.save();
-    const hydratedAccountType = savedAccountType.toObject() as IAccountType;
+    const hydratedAccountType = savedAccountType.toObject() as unknown as IAccountType;
     return hydratedAccountType;
   }
 
@@ -16,7 +16,7 @@ export class MongoAccountTypeRepository implements IAccountTypeRepository {
   }
 
   async findById(id: string): Promise<IAccountType | null> {
-    const AccountType = await AccountTypeModel.findOne({ id: new mongoose.Types.ObjectId(id) });
-    return AccountType ? (AccountType.toObject() as IAccountType) : null;
+    const accountType = await AccountTypeModel.findOne({ id: new mongoose.Types.ObjectId(id) });
+    return accountType ? (accountType.toObject() as unknown as IAccountType) : null;
   }
 }

@@ -7,17 +7,17 @@ export class MongoUserRepository implements IUserRepository {
   async createUser(user: IUser): Promise<IUser> {
     const newUser = new UserModel(user);
     const savedUser = await newUser.save();
-    const hydratedUser = savedUser.toObject() as IUser;
+    const hydratedUser = savedUser.toObject() as unknown as IUser;
     return hydratedUser;
   }
 
   async findByEmail(email: string): Promise<IUser | null> {
     const user = await UserModel.findOne({ email }).select({ password: true });
-    return user ? (user.toObject() as IUser) : null;
+    return user ? (user.toObject() as unknown as IUser) : null;
   }
 
   async findById(id: string): Promise<IUser | null> {
     const user = await UserModel.findOne({ id: new mongoose.Types.ObjectId(id) });
-    return user ? (user.toObject() as IUser) : null;
+    return user ? (user.toObject() as unknown as IUser) : null;
   }
 }

@@ -12,11 +12,31 @@ export class MongoAccountRepository implements IAccountRepository {
   //   return hydratedAccount;
   // }
 
-  async createAccount(account: IAccount): Promise<IAccount> {
-    const newAccount = new AccountModel(account);
-    const savedAccount = await newAccount.save();
-    const hydratedAccount = savedAccount.toObject() as unknown as IAccount;
-    return hydratedAccount;
+  async createAccount(account: IAccount, session?: mongoose.ClientSession): Promise<IAccount> {
+    if (session) {
+      const newAccount = new AccountModel(account);
+      const savedAccount = await newAccount.save({ session });
+      const hydratedAccount = savedAccount.toObject() as unknown as IAccount;
+      return hydratedAccount;
+    } else {
+      const session = await mongoose.startSession();
+      session.startTransaction();
+
+      try {
+        const newAccount = new AccountModel(account);
+        const savedAccount = await newAccount.save({ session });
+        const hydratedAccount = savedAccount.toObject() as unknown as IAccount;
+
+        await session.commitTransaction();
+        session.endSession();
+
+        return hydratedAccount;
+      } catch (error) {
+        await session.abortTransaction();
+        session.endSession();
+        throw error;
+      }
+    }
   }
 
   async seedAccountCollection(Accounts: IAccount[]): Promise<void> {

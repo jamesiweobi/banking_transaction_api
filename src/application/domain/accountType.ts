@@ -1,5 +1,5 @@
 export interface IAccountType {
-  id?: string;
+  _id?: string;
   typeName: String;
   description: String;
   features: String[];

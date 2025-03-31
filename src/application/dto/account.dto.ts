@@ -1,4 +1,4 @@
-import { IsString, IsNumber, IsMongoId, IsOptional } from 'class-validator';
+import { IsString, IsNumber, IsMongoId, IsOptional, IsNotEmpty } from 'class-validator';
 import mongoose from 'mongoose';
 
 /**
@@ -103,44 +103,18 @@ import mongoose from 'mongoose';
  * example: { accountNumber: 'asc' }
  */
 
-export class AccountDto {
-  @IsString()
-  accountNumber: string;
-
-  @IsNumber()
-  balance: number;
-
-  @IsMongoId()
-  user: mongoose.Types.ObjectId;
-
-  @IsMongoId()
-  currency: mongoose.Types.ObjectId;
-
-  @IsMongoId()
-  accountType: mongoose.Types.ObjectId;
-
-  @IsOptional()
-  createdAt?: Date;
-
-  @IsOptional()
-  updatedAt?: Date;
-}
-
 export class CreateAccountDto {
-  @IsString()
-  accountNumber: string;
-
-  @IsNumber()
-  balance: number;
-
+  @IsNotEmpty()
   @IsMongoId()
-  user: mongoose.Types.ObjectId;
+  currency!: mongoose.Types.ObjectId;
 
+  @IsNotEmpty()
   @IsMongoId()
-  currency: mongoose.Types.ObjectId;
+  bank!: mongoose.Types.ObjectId;
 
+  @IsNotEmpty()
   @IsMongoId()
-  accountType: mongoose.Types.ObjectId;
+  accountType!: mongoose.Types.ObjectId;
 }
 
 export class UpdateAccountDto {

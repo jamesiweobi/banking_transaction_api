@@ -1,5 +1,5 @@
 export interface IBank {
-  id?: string;
+  _id?: string;
   bankName: string;
   sortCode: string;
   bankCode: string;

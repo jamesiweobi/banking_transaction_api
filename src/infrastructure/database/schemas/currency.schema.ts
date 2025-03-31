@@ -20,7 +20,7 @@ const currencySchema = new Schema(
       type: Number,
       default: 2,
       min: 0,
-      max: 4,
+      max: 8,
     },
     isFiat: {
       type: Boolean,

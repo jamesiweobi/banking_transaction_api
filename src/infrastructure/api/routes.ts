@@ -1,6 +1,7 @@
 import authRoutes from './auth.route';
+import accountRoutes from './account.route';
 
 export default {
   auth: authRoutes,
-  // users: userRoutes,
+  accounts: accountRoutes,
 };
