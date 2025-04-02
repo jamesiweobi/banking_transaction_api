@@ -19,6 +19,13 @@ Object.entries(routes).forEach(([path, router]) => {
 
 app.use('/api/v1/api-docs', swaggerUiServe, swaggerUiSetup);
 
+app.use('*', (req: Request, res: Response, next: NextFunction) => {
+  res.status(404).json({
+    message: 'Route Not Found',
+    path: req.originalUrl,
+    method: req.method,
+  });
+});
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   errorHandler(err, req, res, next);
 });
