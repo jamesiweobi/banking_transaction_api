@@ -9,7 +9,7 @@ const UserRepository = new MongoUserRepository();
 export const authMiddleware = async (req: AuthRequest, res: Response, next: NextFunction) => {
   const token = req.header('Authorization')?.split(' ')[1];
   if (!token) {
-    throw new UnAuthorizedError('Missing authorization header token.');
+    return next(new UnAuthorizedError('Missing authorization header token.'));
   }
   try {
     const decoded: any = jwt.verify(token, process.env.JWT_SECRET!);
@@ -17,6 +17,6 @@ export const authMiddleware = async (req: AuthRequest, res: Response, next: Next
     (req as any).user = user;
     next();
   } catch (error) {
-    throw new UnAuthorizedError();
+    return next(new UnAuthorizedError());
   }
 };

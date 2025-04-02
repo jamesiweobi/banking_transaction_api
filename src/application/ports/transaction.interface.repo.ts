@@ -1,9 +1,9 @@
-import { FilterQuery, QueryOptions } from 'mongoose';
+import mongoose, { FilterQuery, QueryOptions } from 'mongoose';
 import { IFindQueryResponse } from './types/findQuery.response';
-import { ITransaction } from '../domain/transaction';
+import { CreateTransactionDto, ITransaction } from '../domain/transaction';
 
 export interface ITransactionRepository {
-  createTransaction(transaction: ITransaction): Promise<ITransaction>;
+  createTransaction(transaction: CreateTransactionDto, session: mongoose.ClientSession): Promise<ITransaction>;
   findById(id: string): Promise<ITransaction | null>;
   findBy(
     query: FilterQuery<ITransaction>,

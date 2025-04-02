@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose, { mongo, UpdateQuery } from 'mongoose';
 import { IAccount } from '../../application/domain/account';
 import { IAccountRepository } from '../../application/ports/account.interface.repo';
 import AccountModel from './schemas/account.schema';
@@ -12,7 +12,7 @@ export class MongoAccountRepository implements IAccountRepository {
   //   return hydratedAccount;
   // }
 
-  async createAccount(account: IAccount, session?: mongoose.ClientSession): Promise<IAccount> {
+  async createAccount(account: IAccount, session: mongoose.ClientSession): Promise<IAccount> {
     if (session) {
       const newAccount = new AccountModel(account);
       const savedAccount = await newAccount.save({ session });
@@ -43,9 +43,19 @@ export class MongoAccountRepository implements IAccountRepository {
     await AccountModel.insertMany(Accounts);
   }
 
-  async findById(id: string): Promise<IAccount | null> {
-    const Account = await AccountModel.findById(id);
-    return Account ? (Account.toObject() as unknown as IAccount) : null;
+  async findById(id: string, session?: mongoose.ClientSession): Promise<IAccount | null> {
+    if (session) {
+      return await AccountModel.findById(id, {}, { session });
+    }
+    return await AccountModel.findById(id);
+  }
+
+  async findByIdAndUpdate(
+    id: string,
+    updateObject: UpdateQuery<IAccount>,
+    session: mongoose.ClientSession,
+  ): Promise<IAccount | null> {
+    return await AccountModel.findByIdAndUpdate(id, updateObject, { session, new: true });
   }
 
   async findByName(AccountName: string): Promise<IAccount | null> {
@@ -86,8 +96,9 @@ export class MongoAccountRepository implements IAccountRepository {
   async findOne(
     query: mongoose.FilterQuery<IAccount>,
     options?: mongoose.QueryOptions<IAccount>,
+    session?: mongoose.ClientSession,
   ): Promise<IAccount | null> {
-    const account = await AccountModel.findOne(query, options ? options : { sort: { createdAt: -1 } })
+    const account = await AccountModel.findOne(query, options ?? { sort: { createdAt: -1 } }, { session: session })
       .populate('currency')
       .populate('accountType')
       .populate('accountOwner')

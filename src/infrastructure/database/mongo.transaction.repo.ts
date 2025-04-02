@@ -2,12 +2,12 @@ import mongoose from 'mongoose';
 import TransactionModel from './schemas/transactions.schema';
 import { IFindQueryResponse } from '../../application/ports/types/findQuery.response';
 import { ITransactionRepository } from '../../application/ports/transaction.interface.repo';
-import { ITransaction } from '../../application/domain/transaction';
+import { CreateTransactionDto, ITransaction } from '../../application/domain/transaction';
 
 export class MongoTransactionRepository implements ITransactionRepository {
-  async createTransaction(transaction: ITransaction): Promise<ITransaction> {
+  async createTransaction(transaction: CreateTransactionDto, session: mongoose.ClientSession): Promise<ITransaction> {
     const newtransaction = new TransactionModel(transaction);
-    const savedtransaction = await newtransaction.save();
+    const savedtransaction = await newtransaction.save({ session });
     const hydratedtransaction = savedtransaction.toObject() as unknown as ITransaction;
     return hydratedtransaction;
   }

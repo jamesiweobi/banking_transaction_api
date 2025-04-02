@@ -1,5 +1,7 @@
+import mongoose from 'mongoose';
+
 export interface ICurrency {
-  _id?: string;
+  _id?: mongoose.Types.ObjectId;
   code: String;
   name: String;
   symbol: String;

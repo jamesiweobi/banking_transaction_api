@@ -4,7 +4,7 @@ import { IAccount } from './account';
 import { AccountStatusEnum } from '../../infrastructure/database/schemas/accountStatusHistory.schema';
 
 export interface IAccountStatusHistory {
-  _id?: string;
+  _id?: mongoose.Types.ObjectId;
   status: AccountStatusEnum;
   accountOwner: mongoose.Types.ObjectId | IUser;
   account: mongoose.Types.ObjectId | IAccount;

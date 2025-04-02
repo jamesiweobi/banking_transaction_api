@@ -21,6 +21,10 @@ const transactionSchema = new Schema(
       type: Number,
       required: true,
     },
+    balance: {
+      type: Number,
+      required: true,
+    },
     currency: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Currency',
@@ -37,6 +41,11 @@ const transactionSchema = new Schema(
     ledgerEntry: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'LedgerEntry',
+      required: true,
+    },
+    accountOwner: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
       required: true,
     },
   },

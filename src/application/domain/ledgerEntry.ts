@@ -3,13 +3,12 @@ import { IAccount } from './account';
 import { ICurrency } from './currency';
 
 export interface ILedgerEntry {
-  _id?: string;
-  debitAccountId: mongoose.Types.ObjectId | IAccount;
-  creditAccountId: mongoose.Types.ObjectId | IAccount;
+  _id?: mongoose.Types.ObjectId;
+  debitAccount?: mongoose.Types.ObjectId | IAccount;
+  creditAccount?: mongoose.Types.ObjectId | IAccount;
   amount: number;
   currency: mongoose.Types.ObjectId | ICurrency;
-  description: string;
-  timestamp: Date;
+  timestamp?: Date;
   createdAt?: Date;
   updatedAt?: Date;
 }
