@@ -1,0 +1,273 @@
+{
+  "info": {
+    "_postman_id": "YOUR_POSTMAN_ID",
+    "name": "Banking Transactions API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "User Accounts",
+      "item": [
+        {
+          "name": "Register User",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"testuser\",\n  \"email\": \"testuser@example.com\",\n  \"password\": \"password123\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/users/register",
+              "host": ["{{baseUrl}}"],
+              "path": ["users", "register"]
+            },
+            "description": "Registers a new user."
+          },
+          "response": []
+        },
+        {
+          "name": "Login User",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"testuser@example.com\",\n  \"password\": \"password123\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/login",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "login"]
+            },
+            "description": "Authenticates a user and returns a JWT token."
+          },
+          "response": []
+        },
+        {
+          "name": "Create Account",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}",
+                "type": "string"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"accountNumber\": \"1234567890\",\n  \"accountType\": \"savings\",\n  \"currency\": \"USD\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/accounts/create",
+              "host": ["{{baseUrl}}"],
+              "path": ["accounts", "create"]
+            },
+            "description": "Creates a new account. Requires a valid JWT token."
+          },
+          "response": []
+        },
+        {
+          "name": "Get User Accounts",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}",
+                "type": "string"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/accounts/user",
+              "host": ["{{baseUrl}}"],
+              "path": ["accounts", "user"]
+            },
+            "description": "Retrieves the current user's accounts. Requires a valid JWT token."
+          },
+          "response": []
+        },
+        {
+          "name": "Get Bank List",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}",
+                "type": "string"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/accounts/bank-list",
+              "host": ["{{baseUrl}}"],
+              "path": ["accounts", "bank-list"]
+            },
+            "description": "Retrieves the list of available banks. Requires a valid JWT token."
+          },
+          "response": []
+        },
+        {
+          "name": "Get Currency List",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}",
+                "type": "string"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/accounts/currency-list",
+              "host": ["{{baseUrl}}"],
+              "path": ["accounts", "currency-list"]
+            },
+            "description": "Retrieves the list of available currencies. Requires a valid JWT token."
+          },
+          "response": []
+        },
+        {
+          "name": "Get Account Type List",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}",
+                "type": "string"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/accounts/account-type-list",
+              "host": ["{{baseUrl}}"],
+              "path": ["accounts", "account-type-list"]
+            },
+            "description": "Retrieves the list of available account types. Requires a valid JWT token."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Transactions",
+      "item": [
+        {
+          "name": "Deposit",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}",
+                "type": "string"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"amount\": 100,\n  \"currency\": \"CURRENCY_OBJECT_ID\",\n  \"description\": \"Deposit transaction\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/transactions/deposit",
+              "host": ["{{baseUrl}}"],
+              "path": ["transactions", "deposit"]
+            },
+            "description": "Creates a deposit transaction. Requires a valid JWT token. Uses CreateDepositTransactionDto."
+          },
+          "response": []
+        },
+        {
+          "name": "Withdrawal",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}",
+                "type": "string"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"amount\": 50,\n  \"currency\": \"CURRENCY_OBJECT_ID\",\n  \"description\": \"Withdrawal transaction\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/transactions/withdrawal",
+              "host": ["{{baseUrl}}"],
+              "path": ["transactions", "withdrawal"]
+            },
+            "description": "Creates a withdrawal transaction. Requires a valid JWT token. Uses CreateWithdrawalTransactionDto."
+          },
+          "response": []
+        },
+        {
+          "name": "Transfer",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}",
+                "type": "string"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"creditAccount\": \"CREDIT_ACCOUNT_OBJECT_ID\",\n  \"amount\": 75,\n  \"currency\": \"CURRENCY_OBJECT_ID\",\n  \"description\": \"Transfer transaction\",\n  \"debitAccount\": \"DEBIT_ACCOUNT_OBJECT_ID\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/transactions/transfer",
+              "host": ["{{baseUrl}}"],
+              "path": ["transactions", "transfer"]
+            },
+            "description": "Creates an account-to-account transfer transaction. Requires a valid JWT token. Uses CreateAccToAccTransferTransactionDto."
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000/api",
+      "type": "string"
+    },
+    {
+      "key": "accessToken",
+      "value": "",
+      "type": "string"
+    }
+  ]
+}
