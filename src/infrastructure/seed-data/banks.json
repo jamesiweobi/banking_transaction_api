@@ -1,0 +1,62 @@
+[
+  {
+    "bankName": "First National Bank",
+    "bankCode": "FNB123",
+    "sortCode": "12-34-56",
+    "location": "New York, NY"
+  },
+  {
+    "bankName": "Global Savings Bank",
+    "bankCode": "GSB456",
+    "sortCode": "78-90-12",
+    "location": "London, UK"
+  },
+  {
+    "bankName": "Central Credit Union",
+    "bankCode": "CCU789",
+    "sortCode": "34-56-78",
+    "location": "Toronto, CA"
+  },
+  {
+    "bankName": "Pacific Rim Bank",
+    "bankCode": "PRB012",
+    "sortCode": "90-12-34",
+    "location": "Tokyo, JP"
+  },
+  {
+    "bankName": "Southern Trust Bank",
+    "bankCode": "STB345",
+    "sortCode": "56-78-90",
+    "location": "Sydney, AU"
+  },
+  {
+    "bankName": "Continental Investment Bank",
+    "bankCode": "CIB678",
+    "sortCode": "12-90-56",
+    "location": "Berlin, DE"
+  },
+  {
+    "bankName": "Northern Lights Bank",
+    "bankCode": "NLB901",
+    "sortCode": "78-34-12",
+    "location": "Oslo, NO"
+  },
+  {
+    "bankName": "African Development Bank",
+    "bankCode": "ADB234",
+    "sortCode": "56-12-78",
+    "location": "Nairobi, KE"
+  },
+  {
+    "bankName": "Latin American Finance",
+    "bankCode": "LAF567",
+    "sortCode": "34-90-56",
+    "location": "Sao Paulo, BR"
+  },
+  {
+    "bankName": "Eastern European Bank",
+    "bankCode": "EEB890",
+    "sortCode": "90-56-34",
+    "location": "Warsaw, PL"
+  }
+]

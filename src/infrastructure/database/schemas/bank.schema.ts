@@ -16,6 +16,13 @@ const bankSchema = new Schema(
       index: true,
       trim: true,
     },
+    sortCode: {
+      type: String,
+      required: true,
+      unique: true,
+      index: true,
+      trim: true,
+    },
     location: {
       type: String,
       required: true,

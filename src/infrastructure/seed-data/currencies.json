@@ -1,0 +1,86 @@
+[
+  {
+    "code": "USD",
+    "name": "United States Dollar",
+    "symbol": "$",
+    "decimalPlaces": 2,
+    "isFiat": true
+  },
+  {
+    "code": "EUR",
+    "name": "Euro",
+    "symbol": "€",
+    "decimalPlaces": 2,
+    "isFiat": true
+  },
+  {
+    "code": "GBP",
+    "name": "British Pound",
+    "symbol": "£",
+    "decimalPlaces": 2,
+    "isFiat": true
+  },
+  {
+    "code": "JPY",
+    "name": "Japanese Yen",
+    "symbol": "¥",
+    "decimalPlaces": 0,
+    "isFiat": true
+  },
+  {
+    "code": "CAD",
+    "name": "Canadian Dollar",
+    "symbol": "$",
+    "decimalPlaces": 2,
+    "isFiat": true
+  },
+  {
+    "code": "AUD",
+    "name": "Australian Dollar",
+    "symbol": "$",
+    "decimalPlaces": 2,
+    "isFiat": true
+  },
+  {
+    "code": "CHF",
+    "name": "Swiss Franc",
+    "symbol": "CHF",
+    "decimalPlaces": 2,
+    "isFiat": true
+  },
+  {
+    "code": "CNY",
+    "name": "Chinese Yuan",
+    "symbol": "¥",
+    "decimalPlaces": 2,
+    "isFiat": true
+  },
+  {
+    "code": "SEK",
+    "name": "Swedish Krona",
+    "symbol": "kr",
+    "decimalPlaces": 2,
+    "isFiat": true
+  },
+  {
+    "code": "NGN",
+    "name": "Nigerian Naira",
+    "symbol": "₦",
+    "decimalPlaces": 2,
+    "isFiat": true
+  },
+  {
+    "code": "BTC",
+    "name": "Bitcoin",
+    "symbol": "₿",
+    "decimalPlaces": 2,
+    "isFiat": false
+  },
+  {
+    "code": "ETH",
+    "name": "Ethereum",
+    "symbol": "Ξ",
+    "decimalPlaces": 0,
+    "isFiat": false
+  }
+]

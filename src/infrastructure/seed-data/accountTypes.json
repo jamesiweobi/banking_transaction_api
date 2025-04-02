@@ -1,0 +1,52 @@
+[
+  {
+    "typeName": "Savings",
+    "description": "A basic savings account for personal use.",
+    "features": ["Interest-bearing", "Limited transactions", "Online banking access"]
+  },
+  {
+    "typeName": "Checking",
+    "description": "A current account for daily transactions.",
+    "features": ["Debit card", "Online banking", "Unlimited transactions", "Check writing"]
+  },
+  {
+    "typeName": "Business",
+    "description": "An account for businesses with higher transaction volumes.",
+    "features": ["Dedicated account manager", "Bulk payments", "Business loans", "Merchant services"]
+  },
+  {
+    "typeName": "Premium Savings",
+    "description": "A savings account with higher interest rates and additional benefits.",
+    "features": ["Higher interest rates", "Priority customer service", "No monthly fees", "Investment options"]
+  },
+  {
+    "typeName": "Money Market",
+    "description": "A savings account with tiered interest rates and limited check-writing privileges.",
+    "features": ["Tiered interest rates", "Limited check writing", "Online banking", "Higher balance requirements"]
+  },
+  {
+    "typeName": "Certificate of Deposit (CD)",
+    "description": "A savings account with a fixed term and interest rate.",
+    "features": ["Fixed term", "Fixed interest rate", "Penalty for early withdrawal"]
+  },
+  {
+    "typeName": "Student Checking",
+    "description": "A checking account designed for students with low or no fees.",
+    "features": ["No monthly fees", "Online banking", "Debit card", "Mobile banking"]
+  },
+  {
+    "typeName": "Joint Account",
+    "description": "An account held by two or more individuals.",
+    "features": ["Shared access", "Joint liability", "Online banking"]
+  },
+  {
+    "typeName": "Trust Account",
+    "description": "An account held by a trustee for the benefit of a beneficiary.",
+    "features": ["Fiduciary responsibility", "Legal documentation", "Investment options"]
+  },
+  {
+    "typeName": "Escrow Account",
+    "description": "A temporary account held by a third party during a transaction.",
+    "features": ["Third-party management", "Secure holding", "Disbursement upon completion"]
+  }
+]

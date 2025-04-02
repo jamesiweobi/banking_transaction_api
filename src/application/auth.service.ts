@@ -23,11 +23,10 @@ export class AuthService {
 
     const isValid = await bcrypt.compare(password, user.password);
     if (!isValid) throw new UnAuthorizedError('Invalid credentials');
-
-    const token = jwt.sign({ _id: user.id, email: user.email }, process.env.JWT_SECRET!, {
+    const token = jwt.sign({ _id: user._id, email: user.email }, process.env.JWT_SECRET!, {
       expiresIn: '10days',
     });
 
-    return { token, _id: user.id };
+    return { token, _id: user._id };
   }
 }
