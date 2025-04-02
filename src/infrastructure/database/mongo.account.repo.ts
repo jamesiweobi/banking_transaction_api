@@ -43,9 +43,11 @@ export class MongoAccountRepository implements IAccountRepository {
     await AccountModel.insertMany(Accounts);
   }
 
-  async findById(id: string): Promise<IAccount | null> {
-    const Account = await AccountModel.findById(id);
-    return Account ? (Account.toObject() as unknown as IAccount) : null;
+  async findById(id: string, session?: mongoose.ClientSession): Promise<IAccount | null> {
+    if (session) {
+      return await AccountModel.findById(id, {}, { session });
+    }
+    return await AccountModel.findById(id);
   }
 
   async findByIdAndUpdate(

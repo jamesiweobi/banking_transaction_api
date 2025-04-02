@@ -21,6 +21,10 @@ const transactionSchema = new Schema(
       type: Number,
       required: true,
     },
+    balance: {
+      type: Number,
+      required: true,
+    },
     currency: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Currency',

@@ -23,26 +23,24 @@ export interface CreateTransactionDto {
   account: Types.ObjectId;
   transactionType: TransactionTypeEnum;
   amount: number;
+  balance: number;
   currency: Types.ObjectId;
   description: string;
   timestamp: Date;
   accountOwner: Types.ObjectId;
-  debitAccount?: Types.ObjectId;
+  ledgerEntry: Types.ObjectId | ILedgerEntry;
 }
 
 export interface CreateDepositTransactionDto {
-  account: Types.ObjectId;
   amount: number;
   currency: Types.ObjectId;
   description: string;
-  accountOwner: Types.ObjectId;
 }
 
 export interface CreateWithDrawalTransactionDto {
-  account: Types.ObjectId;
+  creditAccount: Types.ObjectId;
   amount: number;
   currency: Types.ObjectId;
   description: string;
-  accountOwner: Types.ObjectId;
-  debitAccount?: Types.ObjectId;
+  debitAccount: Types.ObjectId;
 }

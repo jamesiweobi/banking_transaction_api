@@ -29,7 +29,6 @@ export class AccountService {
     private currencyService: CurrencyService,
     private accountTypeService: AccountTypeService,
     private accountStatusHistoryService: AccountStatusHistoryService,
-    private transactionService: TransactionService,
   ) {}
 
   async createAccount(accountDto: CreateAccountDto, user: IUser): Promise<{ account: IAccount }> {

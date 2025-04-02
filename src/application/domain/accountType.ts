@@ -1,5 +1,7 @@
+import mongoose from 'mongoose';
+
 export interface IAccountType {
-  _id?: string;
+  _id?: mongoose.Types.ObjectId;
   typeName: String;
   description: String;
   features: String[];

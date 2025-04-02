@@ -6,7 +6,7 @@ import { IBank } from './bank';
 import { AccountStatusEnum } from '../../infrastructure/database/schemas/accountStatusHistory.schema';
 
 export interface IAccount {
-  _id?: string;
+  _id?: mongoose.Types.ObjectId;
   accountNumber: String;
   balance: number;
   accountOwner: mongoose.Types.ObjectId | IUser;
