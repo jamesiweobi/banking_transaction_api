@@ -8,7 +8,7 @@ import { AccountStatusEnum } from '../../infrastructure/database/schemas/account
 export interface IAccount {
   _id?: string;
   accountNumber: String;
-  balance: Number;
+  balance: number;
   accountOwner: mongoose.Types.ObjectId | IUser;
   currency: mongoose.Types.ObjectId | ICurrency;
   accountType: mongoose.Types.ObjectId | IAccountType;

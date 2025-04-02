@@ -3,6 +3,7 @@ import { TransactionTypeEnum } from '../../infrastructure/database/schemas/trans
 import { ICurrency } from './currency';
 import { IAccount } from './account';
 import { ILedgerEntry } from './ledgerEntry';
+import { IUser } from './user';
 
 export interface ITransaction {
   _id?: string;
@@ -13,6 +14,35 @@ export interface ITransaction {
   description: string;
   timestamp: Date;
   ledgerEntry: Types.ObjectId | ILedgerEntry;
+  accountOwner: Types.ObjectId | IUser;
   createdAt?: Date;
   updatedAt?: Date;
+}
+
+export interface CreateTransactionDto {
+  account: Types.ObjectId;
+  transactionType: TransactionTypeEnum;
+  amount: number;
+  currency: Types.ObjectId;
+  description: string;
+  timestamp: Date;
+  accountOwner: Types.ObjectId;
+  debitAccount?: Types.ObjectId;
+}
+
+export interface CreateDepositTransactionDto {
+  account: Types.ObjectId;
+  amount: number;
+  currency: Types.ObjectId;
+  description: string;
+  accountOwner: Types.ObjectId;
+}
+
+export interface CreateWithDrawalTransactionDto {
+  account: Types.ObjectId;
+  amount: number;
+  currency: Types.ObjectId;
+  description: string;
+  accountOwner: Types.ObjectId;
+  debitAccount?: Types.ObjectId;
 }

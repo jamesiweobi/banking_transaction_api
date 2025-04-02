@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose, { mongo, UpdateQuery } from 'mongoose';
 import { IAccount } from '../../application/domain/account';
 import { IAccountRepository } from '../../application/ports/account.interface.repo';
 import AccountModel from './schemas/account.schema';
@@ -12,7 +12,7 @@ export class MongoAccountRepository implements IAccountRepository {
   //   return hydratedAccount;
   // }
 
-  async createAccount(account: IAccount, session?: mongoose.ClientSession): Promise<IAccount> {
+  async createAccount(account: IAccount, session: mongoose.ClientSession): Promise<IAccount> {
     if (session) {
       const newAccount = new AccountModel(account);
       const savedAccount = await newAccount.save({ session });
@@ -46,6 +46,14 @@ export class MongoAccountRepository implements IAccountRepository {
   async findById(id: string): Promise<IAccount | null> {
     const Account = await AccountModel.findById(id);
     return Account ? (Account.toObject() as unknown as IAccount) : null;
+  }
+
+  async findByIdAndUpdate(
+    id: string,
+    updateObject: UpdateQuery<IAccount>,
+    session: mongoose.ClientSession,
+  ): Promise<IAccount | null> {
+    return await AccountModel.findByIdAndUpdate(id, updateObject, { session, new: true });
   }
 
   async findByName(AccountName: string): Promise<IAccount | null> {

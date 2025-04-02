@@ -4,9 +4,10 @@ import { ICurrency } from './currency';
 
 export interface ILedgerEntry {
   _id?: string;
-  debitAccountId: mongoose.Types.ObjectId | IAccount;
-  creditAccountId: mongoose.Types.ObjectId | IAccount;
+  debitAccount?: mongoose.Types.ObjectId | IAccount;
+  creditAccount: mongoose.Types.ObjectId | IAccount;
   amount: number;
+  balance: number;
   currency: mongoose.Types.ObjectId | ICurrency;
   description: string;
   timestamp: Date;

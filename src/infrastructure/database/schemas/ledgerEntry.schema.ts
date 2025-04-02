@@ -2,17 +2,21 @@ import mongoose, { Schema } from 'mongoose';
 
 const ledgerEntrySchema = new Schema(
   {
-    debitAccountId: {
+    debitAccount: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Account',
       required: true,
     },
-    creditAccountId: {
+    creditAccount: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Account',
       required: true,
     },
     amount: {
+      type: Number,
+      required: true,
+    },
+    balance: {
       type: Number,
       required: true,
     },

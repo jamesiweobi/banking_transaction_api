@@ -13,6 +13,8 @@ import { MongoAccountStatusHistoryRepository } from '../database/mongo.accountSt
 import { CreateAccountDto } from '../../application/dto/account.dto';
 import { AccountTypeService } from '../../application/accountType.sercive';
 import { AuthRequest } from '../../types/express';
+import { MongoTransactionRepository } from '../database/mongo.transaction.repo';
+import { TransactionService } from '../../application/transaction.service';
 
 const accountService = new AccountService(
   new MongoAccountRepository(),
@@ -20,6 +22,7 @@ const accountService = new AccountService(
   new CurrencyService(new MongoCurrencyRepository()),
   new AccountTypeService(new MongoAccountTypeRepository()),
   new AccountStatusHistoryService(new MongoAccountStatusHistoryRepository()),
+  new TransactionService(new MongoTransactionRepository()),
 );
 
 export const createAccount = async (req: AuthRequest, res: Response, next: NextFunction) => {

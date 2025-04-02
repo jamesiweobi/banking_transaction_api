@@ -16,6 +16,11 @@ import { AccountTypeService } from './accountType.sercive';
 import { IBank } from './domain/bank';
 import { ICurrency } from './domain/currency';
 import { IAccountType } from './domain/accountType';
+import { TransactionService } from './transaction.service';
+import { TransactionTypeEnum } from '../infrastructure/database/schemas/transactions.schema';
+import { CreateTransactionDto } from './domain/transaction';
+import { NotFoundError } from '../errors/notFound.error';
+import { ILedgerEntry } from './domain/ledgerEntry';
 
 export class AccountService {
   constructor(
@@ -24,6 +29,7 @@ export class AccountService {
     private currencyService: CurrencyService,
     private accountTypeService: AccountTypeService,
     private accountStatusHistoryService: AccountStatusHistoryService,
+    private transactionService: TransactionService,
   ) {}
 
   async createAccount(accountDto: CreateAccountDto, user: IUser): Promise<{ account: IAccount }> {
