@@ -156,6 +156,6 @@ The application follows a Hexagonal Architecture, which separates the core appli
 
 ## Submission
 
-* **GitHub Repository Link:** [Your GitHub Repository Link]
+* **GitHub Repository Link:** [https://github.com/jamesiweobi/banking_transaction_api]
 * **Live API Link:** [https://banking-transaction-api.onrender.com/api/v1/]
 * **Postman Documentation Link:** [https://universal-crater-330946.postman.co/workspace/mainstack_backend_banking_api~debe7bd0-88ed-48ea-820f-7758c8ead524/collection/34845500-0e9fb0ab-0a34-4286-bb90-f0269b69a507?action=share&creator=34845500]
