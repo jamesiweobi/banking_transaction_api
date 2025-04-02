@@ -1,16 +1,16 @@
 import mongoose, { Types } from 'mongoose';
 import { MongoTransactionRepository } from '../infrastructure/database/mongo.transaction.repo';
 import {
-  CreateDepositTransactionDto,
+  ICreateAccToAccTransferTransactionDto,
+  ICreateDepositTransactionDto,
   CreateTransactionDto,
-  CreateWithDrawalTransactionDto,
+  ICreateWithDrawalTransactionDto,
   ITransaction,
 } from './domain/transaction';
 import { AppError } from '../errors/appError.error';
 import { NotFoundError } from '../errors/notFound.error';
 import { TransactionTypeEnum } from '../infrastructure/database/schemas/transactions.schema';
 import { ILedgerEntry } from './domain/ledgerEntry';
-import { IAccount } from './domain/account';
 import { MongoAccountRepository } from '../infrastructure/database/mongo.account.repo';
 import { MongoLedgerRepository } from '../infrastructure/database/mongo.ledgerEntry.repo';
 import { IUser } from './domain/user';
@@ -28,7 +28,7 @@ export class TransactionService {
     return transaction;
   }
 
-  async handleDeposit(dto: CreateDepositTransactionDto, user: IUser) {
+  async handleDeposit(dto: ICreateDepositTransactionDto, user: IUser) {
     const session = await mongoose.startSession();
     session.startTransaction();
     try {
@@ -67,18 +67,18 @@ export class TransactionService {
         timestamp: new Date(),
         ledgerEntry: ledger._id!,
       };
-      await this.createTransaction(transactionPayload, session);
+      const creditTransaction = await this.createTransaction(transactionPayload, session);
       await session.commitTransaction();
-      session.endSession();
-      return { account: updatedAccount, ledgerEntryPayload: ledgerEntryPayload };
+      await session.endSession();
+      return { account: updatedAccount, ledgerEntryPayload: ledger, creditTransaction };
     } catch (error: any) {
       await session.abortTransaction();
-      session.endSession();
+      await session.endSession();
       throw new AppError(error.message);
     }
   }
 
-  async performTransfer(dto: CreateWithDrawalTransactionDto, user: IUser) {
+  async performTransfer(dto: ICreateAccToAccTransferTransactionDto, user: IUser) {
     const session = await mongoose.startSession();
     session.startTransaction();
     try {
@@ -90,7 +90,7 @@ export class TransactionService {
       if (!debitAccount) {
         throw new BadRequestError('Debit Account not found');
       }
-      if (debitAccount.currency != creditAccount.currency) {
+      if (debitAccount.currency.toString() !== creditAccount.currency.toString()) {
         throw new BadRequestError('Invalid transaction: Currency mismatch.');
       }
       if (debitAccount.balance < dto.amount) {
@@ -141,21 +141,71 @@ export class TransactionService {
         session,
       );
 
-      if (!session.inTransaction()) {
-        await session.commitTransaction();
-        session.endSession();
-      }
-
+      await session.commitTransaction();
+      await session.endSession();
       return {
         debitTransaction: completedDebitTransaction,
         creditTransaction: completedCreditTransaction,
         ledgerEntryPayload: ledgerEntryPayload,
       };
     } catch (error: any) {
-      if (session.inTransaction()) {
-        await session.abortTransaction();
-        session.endSession();
+      await session.abortTransaction();
+      await session.endSession();
+      throw new AppError(error.message);
+    }
+  }
+
+  async performWithdrawal(dto: ICreateWithDrawalTransactionDto, user: IUser) {
+    const session = await mongoose.startSession();
+    session.startTransaction();
+    try {
+      const debitAccount = await this.accountRepository.findOne(
+        { currency: dto.currency, accountOwner: user._id },
+        {},
+        session,
+      );
+
+      if (!debitAccount) {
+        throw new BadRequestError('Debit Account not found');
       }
+
+      if (debitAccount.balance < dto.amount) {
+        throw new BadRequestError('Insufficient funds in the debit account');
+      }
+      const debitLedger: ILedgerEntry = {
+        debitAccount: debitAccount._id!,
+        amount: dto.amount,
+        currency: new mongoose.Types.ObjectId(dto.currency),
+      };
+      const ledger = await this.ledgerEntryRepository.createLedgerEntry(debitLedger, session);
+      const transaction: CreateTransactionDto = {
+        account: debitAccount._id!,
+        transactionType: TransactionTypeEnum.DEBIT,
+        amount: dto.amount,
+        balance: debitAccount.balance - dto.amount,
+        currency: dto.currency,
+        description: `Withdrawal from ${debitAccount.accountNumber}: ${dto.description}`,
+        timestamp: new Date(),
+        ledgerEntry: ledger._id!,
+        accountOwner: user._id!,
+      };
+      const amount = dto.amount;
+      const updatedAccount = await this.accountRepository.findByIdAndUpdate(
+        debitAccount._id!.toString(),
+        { $inc: { balance: -amount } },
+        session,
+      );
+      await this.transactionRepository.createTransaction(transaction, session);
+      await session.commitTransaction();
+      await session.endSession();
+      return {
+        transaction: transaction,
+        ledgerEntryPayload: ledger,
+        account: updatedAccount,
+      };
+    } catch (error: any) {
+      await session.abortTransaction();
+      await session.endSession();
       throw new AppError(error.message);
     }
   }

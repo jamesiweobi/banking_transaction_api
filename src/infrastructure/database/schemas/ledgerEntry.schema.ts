@@ -5,18 +5,14 @@ const ledgerEntrySchema = new Schema(
     debitAccount: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Account',
-      required: true,
+      required: false,
     },
     creditAccount: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Account',
-      required: true,
+      required: false,
     },
     amount: {
-      type: Number,
-      required: true,
-    },
-    balance: {
       type: Number,
       required: true,
     },
@@ -27,11 +23,11 @@ const ledgerEntrySchema = new Schema(
     },
     description: {
       type: String,
-      required: true,
+      required: false,
     },
     timestamp: {
       type: Date,
-      required: true,
+      default: new Date(),
     },
   },
   {

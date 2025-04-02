@@ -96,8 +96,9 @@ export class MongoAccountRepository implements IAccountRepository {
   async findOne(
     query: mongoose.FilterQuery<IAccount>,
     options?: mongoose.QueryOptions<IAccount>,
+    session?: mongoose.ClientSession,
   ): Promise<IAccount | null> {
-    const account = await AccountModel.findOne(query, options ? options : { sort: { createdAt: -1 } })
+    const account = await AccountModel.findOne(query, options ?? { sort: { createdAt: -1 } }, { session: session })
       .populate('currency')
       .populate('accountType')
       .populate('accountOwner')

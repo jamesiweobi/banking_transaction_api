@@ -13,8 +13,6 @@ import { MongoAccountStatusHistoryRepository } from '../database/mongo.accountSt
 import { CreateAccountDto } from '../../application/dto/account.dto';
 import { AccountTypeService } from '../../application/accountType.sercive';
 import { AuthRequest } from '../../types/express';
-import { MongoTransactionRepository } from '../database/mongo.transaction.repo';
-import { TransactionService } from '../../application/transaction.service';
 
 const accountService = new AccountService(
   new MongoAccountRepository(),

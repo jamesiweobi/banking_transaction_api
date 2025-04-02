@@ -31,16 +31,22 @@ export interface CreateTransactionDto {
   ledgerEntry: Types.ObjectId | ILedgerEntry;
 }
 
-export interface CreateDepositTransactionDto {
+export interface ICreateDepositTransactionDto {
   amount: number;
   currency: Types.ObjectId;
   description: string;
 }
 
-export interface CreateWithDrawalTransactionDto {
+export interface ICreateAccToAccTransferTransactionDto {
   creditAccount: Types.ObjectId;
   amount: number;
   currency: Types.ObjectId;
   description: string;
   debitAccount: Types.ObjectId;
+}
+
+export interface ICreateWithDrawalTransactionDto {
+  amount: number;
+  currency: Types.ObjectId;
+  description: string;
 }
