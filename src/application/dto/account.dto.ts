@@ -1,5 +1,4 @@
 import { IsString, IsNumber, IsMongoId, IsOptional, IsNotEmpty } from 'class-validator';
-import mongoose from 'mongoose';
 
 /**
  * @swagger
@@ -106,15 +105,15 @@ import mongoose from 'mongoose';
 export class CreateAccountDto {
   @IsNotEmpty()
   @IsMongoId()
-  currency!: mongoose.Types.ObjectId;
+  currency!: string;
 
   @IsNotEmpty()
   @IsMongoId()
-  bank!: mongoose.Types.ObjectId;
+  bank!: string;
 
   @IsNotEmpty()
   @IsMongoId()
-  accountType!: mongoose.Types.ObjectId;
+  accountType!: string;
 }
 
 export class UpdateAccountDto {
@@ -128,15 +127,15 @@ export class UpdateAccountDto {
 
   @IsOptional()
   @IsMongoId()
-  user?: mongoose.Types.ObjectId;
+  user?: string;
 
   @IsOptional()
   @IsMongoId()
-  currency?: mongoose.Types.ObjectId;
+  currency?: string;
 
   @IsOptional()
   @IsMongoId()
-  accountType?: mongoose.Types.ObjectId;
+  accountType?: string;
 }
 
 export class AccountQueryDto {
@@ -150,15 +149,15 @@ export class AccountQueryDto {
 
   @IsOptional()
   @IsMongoId()
-  user?: mongoose.Types.ObjectId;
+  user?: string;
 
   @IsOptional()
   @IsMongoId()
-  currency?: mongoose.Types.ObjectId;
+  currency?: string;
 
   @IsOptional()
   @IsMongoId()
-  accountType?: mongoose.Types.ObjectId;
+  accountType?: string;
 
   @IsOptional()
   limit?: number;

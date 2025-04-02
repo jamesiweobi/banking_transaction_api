@@ -12,7 +12,7 @@ export const register = async (req: Request, res: Response, next: NextFunction) 
     validateDto(RegisterDto, req.body, next);
     const { name, email, password } = req.body;
     const result = await authService.register(name, email, password);
-    sendResponse(res, 201, result);
+    sendResponse(res, 201, result, 'User registration successful');
   } catch (error) {
     next(error);
   }
@@ -23,7 +23,7 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
     validateDto(LoginDto, req.body, next);
     const { email, password } = req.body;
     const result = await authService.login(email, password);
-    sendResponse(res, 200, result);
+    sendResponse(res, 200, result, 'Login successful');
   } catch (error) {
     next(error);
   }

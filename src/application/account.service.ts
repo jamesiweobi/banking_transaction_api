@@ -13,6 +13,9 @@ import { BadRequestError } from '../errors/badRequest.error';
 import { AccountStatusEnum } from '../infrastructure/database/schemas/accountStatusHistory.schema';
 import { AppError } from '../errors/appError.error';
 import { AccountTypeService } from './accountType.sercive';
+import { IBank } from './domain/bank';
+import { ICurrency } from './domain/currency';
+import { IAccountType } from './domain/accountType';
 
 export class AccountService {
   constructor(
@@ -31,14 +34,15 @@ export class AccountService {
       const accountAndCurrencyComboExists = await this.accountRepository.findOne({
         bank: accountDto.bank,
         currency: accountDto.currency,
+        accountType: accountDto.accountType,
         accountOwner: user._id,
       });
-
       if (accountAndCurrencyComboExists) {
         throw new DuplicateResourceError('You already have an Account with the same number and currency.');
       }
 
       await this._validateAccountDetails(accountDto);
+
       const accountNumber = await this._generateAccountNumber();
       const newAccount: IAccount = {
         accountNumber,
@@ -46,7 +50,7 @@ export class AccountService {
         accountOwner: user,
         bank: new mongoose.Types.ObjectId(accountDto.bank),
         currency: new mongoose.Types.ObjectId(accountDto.currency),
-        accountType: accountDto.accountType,
+        accountType: new mongoose.Types.ObjectId(accountDto.accountType),
         status: AccountStatusEnum.ACTIVE,
       };
 
@@ -62,10 +66,10 @@ export class AccountService {
       await session.commitTransaction();
       session.endSession();
       return { account: createdAccount };
-    } catch (error) {
+    } catch (error: any) {
       await session.abortTransaction();
       session.endSession();
-      throw new AppError('An error occurred while creating a new account');
+      throw new AppError(error.message);
     }
   }
 
@@ -77,12 +81,77 @@ export class AccountService {
     ]);
   }
 
+  async getCurrentUserAccounts(
+    query: {
+      limit?: number;
+      skip?: number;
+      sort?: Record<string, 'asc' | 'desc'>;
+    },
+    user: IUser,
+  ): Promise<{ data: IAccount[]; total: number }> {
+    const filter: Partial<IAccount> = {
+      accountOwner: new mongoose.Types.ObjectId(user._id),
+    };
+
+    const limit = query.limit || 10;
+    const skip = query.skip || 0;
+    const sort = query.sort ?? { createdAt: -1 };
+
+    const result = await this.accountRepository.findBy(filter, { limit, skip, sort });
+    return result;
+  }
+
+  async getBankList(query: {
+    limit?: number;
+    skip?: number;
+    sort?: Record<string, 'asc' | 'desc'>;
+  }): Promise<{ data: IBank[]; total: number }> {
+    const filter: Partial<IBank> = {};
+
+    const limit = query.limit || 10;
+    const skip = query.skip || 0;
+    const sort = query.sort ?? { createdAt: -1 };
+
+    const result = await this.bankService.getBankList(filter, { limit, skip, sort });
+    return result;
+  }
+
+  async getCurrencyList(query: {
+    limit?: number;
+    skip?: number;
+    sort?: Record<string, 'asc' | 'desc'>;
+  }): Promise<{ data: ICurrency[]; total: number }> {
+    const filter: Partial<ICurrency> = {};
+
+    const limit = query.limit || 10;
+    const skip = query.skip || 0;
+    const sort = query.sort ?? { createdAt: -1 };
+
+    const result = await this.currencyService.getCurrencies(filter, { limit, skip, sort });
+    return result;
+  }
+
+  async getAccountTypeList(query: {
+    limit?: number;
+    skip?: number;
+    sort?: Record<string, 'asc' | 'desc'>;
+  }): Promise<{ data: IAccountType[]; total: number }> {
+    const filter: Partial<IAccountType> = {};
+
+    const limit = query.limit || 10;
+    const skip = query.skip || 0;
+    const sort = query.sort ?? { createdAt: -1 };
+
+    const result = await this.accountTypeService.getAccountTypeList(filter, { limit, skip, sort });
+    return result;
+  }
+
   private async _validateAccountDetails(accountDetails: CreateAccountDto) {
     try {
       await Promise.all([
-        this.bankService.findById(accountDetails.bank.toString()),
-        this.currencyService.findById(accountDetails.currency.toString()),
-        this.accountTypeService.findById(accountDetails.accountType.toString()),
+        this.bankService.findById(accountDetails.bank),
+        this.currencyService.findById(accountDetails.currency),
+        this.accountTypeService.findById(accountDetails.accountType),
       ]);
     } catch (e: any) {
       throw new BadRequestError(e.message);

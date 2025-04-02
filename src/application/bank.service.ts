@@ -4,6 +4,8 @@ import { NotFoundError } from '../errors/notFound.error';
 import * as fs from 'fs';
 import * as path from 'path';
 import { AppError } from '../errors/appError.error';
+import mongoose from 'mongoose';
+import { ICurrency } from './domain/currency';
 
 export class BankService {
   constructor(private bankRepository: MongoBankRepository) {}
@@ -25,5 +27,9 @@ export class BankService {
     } else {
       throw new AppError('No banksfound in the seed-data/banks.json file');
     }
+  }
+
+  async getBankList(query: mongoose.FilterQuery<IBank>, options: mongoose.QueryOptions<IBank>) {
+    return await this.bankRepository.findBy(query, options);
   }
 }

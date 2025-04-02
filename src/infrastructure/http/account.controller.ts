@@ -40,3 +40,39 @@ export const seedAccountsRelatedData = async (req: AuthRequest, res: Response, n
     next(error);
   }
 };
+
+export const getCurrentUserAccounts = async (req: AuthRequest, res: Response, next: NextFunction) => {
+  try {
+    const result = await accountService.getCurrentUserAccounts(req.query, req.user!);
+    sendResponse(res, 200, result, 'User Accounts retrieved successfully');
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getBankList = async (req: AuthRequest, res: Response, next: NextFunction) => {
+  try {
+    const result = await accountService.getBankList(req.query);
+    sendResponse(res, 200, result, 'Bank list retrieved successfully');
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getCurrencyList = async (req: AuthRequest, res: Response, next: NextFunction) => {
+  try {
+    const result = await accountService.getCurrencyList(req.query);
+    sendResponse(res, 200, result, 'Currency list retrieved successfully');
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getAccountTypeList = async (req: AuthRequest, res: Response, next: NextFunction) => {
+  try {
+    const result = await accountService.getAccountTypeList(req.query);
+    sendResponse(res, 200, result, 'Account-Type list retrieved successfully');
+  } catch (error) {
+    next(error);
+  }
+};

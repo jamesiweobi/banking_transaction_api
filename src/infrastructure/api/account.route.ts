@@ -1,5 +1,12 @@
 import express from 'express';
-import { createAccount, seedAccountsRelatedData } from '../http/account.controller';
+import {
+  createAccount,
+  getAccountTypeList,
+  getBankList,
+  getCurrencyList,
+  getCurrentUserAccounts,
+  seedAccountsRelatedData,
+} from '../http/account.controller';
 import { authMiddleware } from '../auth/auth.middleware';
 
 const router = express.Router();
@@ -210,7 +217,10 @@ const router = express.Router();
 
 router.post('/create', authMiddleware, createAccount);
 router.post('/seed-accounts-data', authMiddleware, seedAccountsRelatedData);
-// router.get('/', authenticate, getAccounts);
+router.get('/user', authMiddleware, getCurrentUserAccounts);
+router.get('/bank-list', authMiddleware, getBankList);
+router.get('/currency-list', authMiddleware, getCurrencyList);
+router.get('/account-type-list', authMiddleware, getAccountTypeList);
 // router.get('/:id', authenticate, getAccountById);
 // router.put('/:id', authenticate, updateAccount);
 // router.delete('/:id', authenticate, deleteAccount);

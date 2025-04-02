@@ -44,7 +44,7 @@ export class MongoAccountRepository implements IAccountRepository {
   }
 
   async findById(id: string): Promise<IAccount | null> {
-    const Account = await AccountModel.findOne({ id: new mongoose.Types.ObjectId(id) });
+    const Account = await AccountModel.findById(id);
     return Account ? (Account.toObject() as unknown as IAccount) : null;
   }
 
@@ -55,19 +55,31 @@ export class MongoAccountRepository implements IAccountRepository {
 
   async findBy(
     query: mongoose.FilterQuery<IAccount>,
-    options?: mongoose.QueryOptions<IAccount>,
+    options: mongoose.QueryOptions<IAccount>,
   ): Promise<IFindQueryResponse<IAccount>> {
+    const { limit, sort, skip } = options;
     const [data, total] = await Promise.all([
-      AccountModel.find(query, options ? options : { sort: { createdAt: -1 } })
+      AccountModel.find(query)
         .populate('currency')
         .populate('accountType')
         .populate('accountOwner')
+        .limit(limit!)
+        .skip(skip!)
+        .sort(sort!)
         .exec(),
       AccountModel.countDocuments(query),
     ]);
+    const page = Math.floor(skip! / limit!) + 1;
+    const totalPages = Math.ceil(total / limit!);
     return {
       data: data.map((account) => account.toObject() as unknown as IAccount),
       total,
+      pagination: {
+        limit: limit!,
+        skip: skip!,
+        page,
+        totalPages,
+      },
     };
   }
 
@@ -75,7 +87,7 @@ export class MongoAccountRepository implements IAccountRepository {
     query: mongoose.FilterQuery<IAccount>,
     options?: mongoose.QueryOptions<IAccount>,
   ): Promise<IAccount | null> {
-    const account = await AccountModel.find(query, options ? options : { sort: { createdAt: -1 } })
+    const account = await AccountModel.findOne(query, options ? options : { sort: { createdAt: -1 } })
       .populate('currency')
       .populate('accountType')
       .populate('accountOwner')

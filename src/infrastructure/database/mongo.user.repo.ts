@@ -16,8 +16,8 @@ export class MongoUserRepository implements IUserRepository {
     return user ? (user.toObject() as unknown as IUser) : null;
   }
 
-  async findById(id: string): Promise<IUser | null> {
-    const user = await UserModel.findOne({ id: new mongoose.Types.ObjectId(id) });
+  async findById(_id: string): Promise<IUser | null> {
+    const user = await UserModel.findById(_id);
     return user ? (user.toObject() as unknown as IUser) : null;
   }
 }

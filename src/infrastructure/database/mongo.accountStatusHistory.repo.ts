@@ -23,7 +23,7 @@ export class MongoAccountStatusHistoryRepository implements IAccountStatusHistor
   }
 
   async findById(id: string): Promise<IAccountStatusHistory | null> {
-    const accountStatus = await AccountStatusModel.findOne({ id: new mongoose.Types.ObjectId(id) });
+    const accountStatus = await AccountStatusModel.findById(id);
     return accountStatus ? (accountStatus.toObject() as unknown as IAccountStatusHistory) : null;
   }
 

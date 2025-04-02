@@ -16,21 +16,30 @@ export class MongoCurrencyRepository implements ICurrencyRepository {
   }
 
   async findById(id: string): Promise<ICurrency | null> {
-    const currency = await CurrencyModel.findOne({ id: new mongoose.Types.ObjectId(id) });
+    const currency = await CurrencyModel.findById(id);
     return currency ? (currency.toObject() as unknown as ICurrency) : null;
   }
 
   async findBy(
     query: mongoose.FilterQuery<ICurrency>,
-    options?: mongoose.QueryOptions<ICurrency>,
+    options: mongoose.QueryOptions<ICurrency>,
   ): Promise<IFindQueryResponse<ICurrency>> {
+    const { limit, sort, skip } = options;
     const [data, total] = await Promise.all([
-      CurrencyModel.find(query, options ? options : { sort: { createdAt: -1 } }).exec(),
+      CurrencyModel.find(query).limit(limit!).skip(skip!).sort(sort!).exec(),
       CurrencyModel.countDocuments(query),
     ]);
+    const page = Math.floor(skip! / limit!) + 1;
+    const totalPages = Math.ceil(total / limit!);
     return {
-      data: data.map((account) => account.toObject() as unknown as ICurrency),
+      data: data.map((currency) => currency.toObject() as unknown as ICurrency),
       total,
+      pagination: {
+        limit: limit!,
+        skip: skip!,
+        page,
+        totalPages,
+      },
     };
   }
 }
